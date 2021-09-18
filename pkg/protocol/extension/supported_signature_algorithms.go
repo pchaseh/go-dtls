@@ -56,14 +56,10 @@ func (s *SupportedSignatureAlgorithms) Unmarshal(data []byte) error {
 	for i := 0; i < algorithmCount; i++ {
 		supportedHashAlgorithm := hash.Algorithm(data[supportedSignatureAlgorithmsHeaderSize+(i*2)])
 		supportedSignatureAlgorithm := signature.Algorithm(data[supportedSignatureAlgorithmsHeaderSize+(i*2)+1])
-		if _, ok := hash.Algorithms()[supportedHashAlgorithm]; ok {
-			if _, ok := signature.Algorithms()[supportedSignatureAlgorithm]; ok {
-				s.SignatureHashAlgorithms = append(s.SignatureHashAlgorithms, signaturehash.Algorithm{
-					Hash:      supportedHashAlgorithm,
-					Signature: supportedSignatureAlgorithm,
-				})
-			}
-		}
+		s.SignatureHashAlgorithms = append(s.SignatureHashAlgorithms, signaturehash.Algorithm{
+			Hash:      supportedHashAlgorithm,
+			Signature: supportedSignatureAlgorithm,
+		})
 	}
 
 	return nil

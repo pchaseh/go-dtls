@@ -17,10 +17,10 @@ func (s SessionTicket) TypeValue() TypeValue {
 
 // Marshal encodes the extension
 func (s* SessionTicket) Marshal() ([]byte, error) {
-	out := make([]byte, 2)
+	out := make([]byte, 4)
 
 	binary.BigEndian.PutUint16(out, uint16(s.TypeValue()))
-	binary.BigEndian.PutUint16(out, uint16(s.Length))
+	binary.BigEndian.PutUint16(out[2:], uint16(s.Length))
 
 	return out, nil
 }

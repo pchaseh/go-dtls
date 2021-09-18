@@ -45,18 +45,19 @@ func (s *SupportedPointFormats) Unmarshal(data []byte) error {
 		return errInvalidExtensionType
 	}
 
-	pointFormatCount := int(binary.BigEndian.Uint16(data[4:]))
+	length := int(binary.BigEndian.Uint16(data[2:]))
+	if length > len(data) {
+		return errLengthMismatch
+	}
+
+	pointFormatCount := int(data[4])
 	if supportedGroupsHeaderSize+(pointFormatCount) > len(data) {
 		return errLengthMismatch
 	}
 
 	for i := 0; i < pointFormatCount; i++ {
 		p := elliptic.CurvePointFormat(data[supportedPointFormatsSize+i])
-		switch p {
-		case elliptic.CurvePointFormatUncompressed:
-			s.PointFormats = append(s.PointFormats, p)
-		default:
-		}
+		s.PointFormats = append(s.PointFormats, p)
 	}
 	return nil
 }

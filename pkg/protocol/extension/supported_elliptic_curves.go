@@ -54,9 +54,7 @@ func (s *SupportedEllipticCurves) Unmarshal(data []byte) error {
 
 	for i := 0; i < groupCount; i++ {
 		supportedGroupID := elliptic.Curve(binary.BigEndian.Uint16(data[(supportedGroupsHeaderSize + (i * 2)):]))
-		if _, ok := elliptic.Curves()[supportedGroupID]; ok {
-			s.EllipticCurves = append(s.EllipticCurves, supportedGroupID)
-		}
+		s.EllipticCurves = append(s.EllipticCurves, supportedGroupID)
 	}
 	return nil
 }
