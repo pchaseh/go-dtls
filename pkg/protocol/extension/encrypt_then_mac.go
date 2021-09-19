@@ -21,7 +21,7 @@ func (e *EncryptThenMac) Marshal() ([]byte, error) {
 	out := make([]byte, 4)
 
 	binary.BigEndian.PutUint16(out, uint16(e.TypeValue()))
-	binary.BigEndian.PutUint16(out[:2], uint16(e.Length))
+	binary.BigEndian.PutUint16(out[2:], uint16(e.Length))
 
 	return out, nil
 }
